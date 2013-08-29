@@ -29,3 +29,27 @@
  					break;
  				}
  				buffer = buffer2;
+--- chromaprint-0.7/src/ext/ffmpeg_decoder.h~	2013-08-29 17:59:01.185761084 +0200
++++ chromaprint-0.7/src/ext/ffmpeg_decoder.h	2013-08-29 18:01:51.129329962 +0200
+@@ -28,6 +28,10 @@
+ }
+ #include "audio_consumer.h"
+ 
++#ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE
++#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000
++#endif
++
+ class Decoder
+ {
+ public:
+--- chromaprint-0.7/src/ext/ffmpeg_decoder.h~	2013-08-29 18:01:51.129329962 +0200
++++ chromaprint-0.7/src/ext/ffmpeg_decoder.h	2013-08-29 18:06:34.402639744 +0200
+@@ -128,7 +128,7 @@
+ 		return false;
+ 	}
+ 
+-	if (avcodec_open(m_codec_ctx, codec) < 0) {
++	if (avcodec_open2(m_codec_ctx, codec, NULL) < 0) {
+ 		m_error = "Couldn't open the codec.";
+ 		return false;
+ 	}
