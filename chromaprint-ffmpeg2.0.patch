@@ -1,0 +1,31 @@
+--- chromaprint-0.7/examples/fpcalc.c.0000	2012-09-06 02:05:36.000000000 +0800
++++ chromaprint-0.7/examples/fpcalc.c	2013-07-11 12:46:13.408154060 +0800
+@@ -13,7 +13,7 @@
+ #define MAX(a, b) ((a) > (b) ? (a) : (b))
+ #define MIN(a, b) ((a) < (b) ? (a) : (b))
+ 
+-#define BUFFER_SIZE (AVCODEC_MAX_AUDIO_FRAME_SIZE * 2)
++#define BUFFER_SIZE (192000 * 2)
+ 
+ #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(52, 94, 1)
+ #define AV_SAMPLE_FMT_S16 SAMPLE_FMT_S16
+@@ -65,7 +65,10 @@
+ 		goto done;
+ 	}
+ 
+-	if (avcodec_open(codec_ctx, codec) < 0) {
++	/* request regular signed 16-bit packed format */
++	codec_ctx->request_sample_fmt = AV_SAMPLE_FMT_S16;
++
++	if (avcodec_open2(codec_ctx, codec, NULL) < 0) {
+ 		fprintf(stderr, "ERROR: couldn't open the codec\n");
+ 		goto done;
+ 	}
+@@ -146,6 +149,7 @@
+ 				int ostride[6] = { 2 };
+ 				int len = buffer_size / istride[0];
+ 				if (av_audio_convert(convert_ctx, obuf, ostride, ibuf, istride, len) < 0) {
++					fprintf(stderr, "WARNING: unable to convert %d samples\n", buffer_size);
+ 					break;
+ 				}
+ 				buffer = buffer2;

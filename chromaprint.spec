@@ -8,6 +8,7 @@ Group:		Libraries
 Source0:	https://github.com/downloads/lalinsky/chromaprint/%{name}-%{version}.tar.gz
 # Source0-md5:	3005fc2c69b9ef4a5c6787ef9355a855
 Patch0:		%{name}-ffmpeg.patch
+Patch1:		%{name}-ffmpeg2.0.patch
 URL:		http://www.acoustid.org/chromaprint/
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
@@ -74,6 +75,7 @@ tworzenia aplikacji wykorzystujących bibliotekę libchromaprint.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %cmake . \
