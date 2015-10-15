@@ -1,18 +1,16 @@
 Summary:	Library implementing the AcoustID fingerprinting
 Summary(pl.UTF-8):	Biblioteka implementująca odciski AcoustID
 Name:		chromaprint
-Version:	0.7
-Release:	6
+Version:	1.2
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	https://github.com/downloads/lalinsky/chromaprint/%{name}-%{version}.tar.gz
-# Source0-md5:	3005fc2c69b9ef4a5c6787ef9355a855
-Patch0:		%{name}-ffmpeg.patch
-Patch1:		%{name}-ffmpeg2.0.patch
-URL:		http://www.acoustid.org/chromaprint/
+Source0:	https://bitbucket.org/acoustid/chromaprint/downloads/%{name}-%{version}.tar.gz
+# Source0-md5:	748da044a8f0ee5f31edec8b67045b3e
+URL:		https://acoustid.org/chromaprint
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
-BuildRequires:	ffmpeg-devel
+BuildRequires:	ffmpeg-devel >= 0.6
 BuildRequires:	libstdc++-devel
 BuildRequires:	taglib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -74,12 +72,10 @@ tworzenia aplikacji wykorzystujących bibliotekę libchromaprint.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 %cmake . \
-	-DBUILD_TOOLS=ON \
+	-DBUILD_EXAMPLES=ON \
 	-DWITH_AVFFT=ON
 
 %{__make}
@@ -89,9 +85,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-# omitted by make install
-install -D tools/fpcollect $RPM_BUILD_ROOT%{_bindir}/fpcollect
-
 %clean
 rm  -rf $RPM_BUILD_ROOT
 
@@ -100,8 +93,8 @@ rm  -rf $RPM_BUILD_ROOT
 
 %files -n libchromaprint
 %defattr(644,root,root,755)
-%doc CHANGES.txt NEWS.txt README.txt
-%attr(755,root,root) %{_bindir}/fpcollect
+%doc NEWS.txt README.md
+%attr(755,root,root) %{_bindir}/fpcalc
 %attr(755,root,root) %{_libdir}/libchromaprint.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libchromaprint.so.0
 
