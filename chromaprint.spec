@@ -1,18 +1,28 @@
+#
+# Conditional build:
+%bcond_without	ffmpeg	# fpcalc build + libchromaprint using avfft
+%bcond_with	fftw3	# libchromaprint using fftw3 instead of avfft
+#
+%if %{without ffmpeg}
+%define	with_fftw3	1
+%endif
 Summary:	Library implementing the AcoustID fingerprinting
 Summary(pl.UTF-8):	Biblioteka implementująca odciski AcoustID
 Name:		chromaprint
-Version:	1.2
+Version:	1.3.1
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://bitbucket.org/acoustid/chromaprint/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	748da044a8f0ee5f31edec8b67045b3e
+# Source0-md5:	f3745ac10b4d4d992cabe743c4a3ed0f
 URL:		https://acoustid.org/chromaprint
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.6
-BuildRequires:	ffmpeg-devel >= 0.6
+%{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.6}
+%{?with_fftw3:BuildRequires:	fftw3-devel >= 3}
 BuildRequires:	libstdc++-devel
 BuildRequires:	taglib-devel
+Requires:	libchromaprint = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -75,8 +85,9 @@ tworzenia aplikacji wykorzystujących bibliotekę libchromaprint.
 
 %build
 %cmake . \
-	-DBUILD_EXAMPLES=ON \
-	-DWITH_AVFFT=ON
+	%{?with_ffmpeg:-DBUILD_EXAMPLES=ON} \
+	%{!?with_fftw3:-DWITH_AVFFT=ON} \
+	%{?with_fftw3:-DWITH_FFTW3=ON}
 
 %{__make}
 
@@ -91,12 +102,17 @@ rm  -rf $RPM_BUILD_ROOT
 %post	-n libchromaprint -p /sbin/ldconfig
 %postun	-n libchromaprint -p /sbin/ldconfig
 
+%if %{with ffmpeg}
+%files
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/fpcalc
+%endif
+
 %files -n libchromaprint
 %defattr(644,root,root,755)
 %doc NEWS.txt README.md
-%attr(755,root,root) %{_bindir}/fpcalc
 %attr(755,root,root) %{_libdir}/libchromaprint.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libchromaprint.so.0
+%attr(755,root,root) %ghost %{_libdir}/libchromaprint.so.1
 
 %files -n libchromaprint-devel
 %defattr(644,root,root,755)
