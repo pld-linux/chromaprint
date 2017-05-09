@@ -9,15 +9,14 @@
 Summary:	Library implementing the AcoustID fingerprinting
 Summary(pl.UTF-8):	Biblioteka implementująca odciski AcoustID
 Name:		chromaprint
-Version:	1.3.1
-Release:	3
+Version:	1.4.2
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://bitbucket.org/acoustid/chromaprint/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	f3745ac10b4d4d992cabe743c4a3ed0f
+# Source0-md5:	895c42ba6d769840a2e10e507ad9f14d
 URL:		https://acoustid.org/chromaprint
-BuildRequires:	boost-devel
-BuildRequires:	cmake >= 2.6
+BuildRequires:	cmake >= 2.8.12
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.6}
 %{?with_fftw3:BuildRequires:	fftw3-devel >= 3}
 BuildRequires:	libstdc++-devel
@@ -85,7 +84,7 @@ tworzenia aplikacji wykorzystujących bibliotekę libchromaprint.
 
 %build
 %cmake . \
-	%{?with_ffmpeg:-DBUILD_EXAMPLES=ON} \
+	%{?with_ffmpeg:-DBUILD_TOOLS=ON} \
 	%{!?with_fftw3:-DWITH_AVFFT=ON} \
 	%{?with_fftw3:-DWITH_FFTW3=ON}
 
