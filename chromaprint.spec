@@ -9,12 +9,13 @@
 Summary:	Library implementing the AcoustID fingerprinting
 Summary(pl.UTF-8):	Biblioteka implementująca odciski AcoustID
 Name:		chromaprint
-Version:	1.4.2
-Release:	5
+Version:	1.4.3
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-Source0:	https://bitbucket.org/acoustid/chromaprint/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	895c42ba6d769840a2e10e507ad9f14d
+#Source0Download: https://github.com/acoustid/chromaprint/releases
+Source0:	https://github.com/acoustid/chromaprint/releases/download/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	20014ca19974de9657d91d331d11f936
 URL:		https://acoustid.org/chromaprint
 BuildRequires:	cmake >= 2.8.12
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 0.6}
@@ -80,10 +81,12 @@ Ten pakiet zawiera pliki nagłówkowe potrzebne programistom do
 tworzenia aplikacji wykorzystujących bibliotekę libchromaprint.
 
 %prep
-%setup -q
+%setup -q -n %{name}-v%{version}
 
 %build
-%cmake . \
+install -d build
+cd build
+%cmake .. \
 	%{?with_ffmpeg:-DBUILD_TOOLS=ON} \
 	%{!?with_fftw3:-DWITH_AVFFT=ON} \
 	%{?with_fftw3:-DWITH_FFTW3=ON}
@@ -92,7 +95,8 @@ tworzenia aplikacji wykorzystujących bibliotekę libchromaprint.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} install \
+
+%{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %clean
