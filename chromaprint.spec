@@ -21,6 +21,7 @@ BuildRequires:	cmake >= 3.10
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 4.2}
 %{?with_fftw3:BuildRequires:	fftw3-devel >= 3}
 BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	rpmbuild(macros) >= 1.605
 BuildRequires:	taglib-devel
 Requires:	libchromaprint%{?_isa} = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
