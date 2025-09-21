@@ -22,7 +22,7 @@ BuildRequires:	cmake >= 3.10
 %{?with_fftw3:BuildRequires:	fftw3-devel >= 3}
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	taglib-devel
-Requires:	libchromaprint = %{version}-%{release}
+Requires:	libchromaprint%{?_isa} = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -70,7 +70,7 @@ nagłówkowym.
 Summary:	Headers for developing programs that will use libchromaprint
 Summary(pl.UTF-8):	Pliki nagłówkowe do tworzenia programów wykorzystujących libchromaprint
 Group:		Development/Libraries
-Requires:	libchromaprint = %{version}-%{release}
+Requires:	libchromaprint%{?_isa} = %{version}-%{release}
 
 %description -n libchromaprint-devel
 This package contains the headers that programmers will need to
