@@ -9,20 +9,19 @@
 Summary:	Library implementing the AcoustID fingerprinting
 Summary(pl.UTF-8):	Biblioteka implementująca odciski AcoustID
 Name:		chromaprint
-Version:	1.6.0
+Version:	1.6.1
 Release:	1
-License:	LGPL v2.1+
+License:	LGPL v2.1+ (MIT parts)
 Group:		Libraries
 #Source0Download: https://github.com/acoustid/chromaprint/releases
 Source0:	https://github.com/acoustid/chromaprint/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	291575b0a2d41cc8603514378bbc4235
+# Source0-md5:	6052ad57ce8be7604628ec9925154ec6
 URL:		https://acoustid.org/chromaprint
 BuildRequires:	cmake >= 3.10
 %{?with_ffmpeg:BuildRequires:	ffmpeg-devel >= 4.2}
 %{?with_fftw3:BuildRequires:	fftw3-devel >= 3}
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	rpmbuild(macros) >= 1.605
-BuildRequires:	taglib-devel
 Requires:	libchromaprint%{?_isa} = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -113,13 +112,13 @@ rm  -rf $RPM_BUILD_ROOT
 
 %files -n libchromaprint
 %defattr(644,root,root,755)
-%doc NEWS.txt README.md
-%attr(755,root,root) %{_libdir}/libchromaprint.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libchromaprint.so.1
+%doc LICENSE.md NEWS.txt README.md
+%{_libdir}/libchromaprint.so.*.*.*
+%ghost %{_libdir}/libchromaprint.so.1
 
 %files -n libchromaprint-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libchromaprint.so
+%{_libdir}/libchromaprint.so
 %{_includedir}/chromaprint.h
 %{_libdir}/cmake/Chromaprint
 %{_pkgconfigdir}/libchromaprint.pc
