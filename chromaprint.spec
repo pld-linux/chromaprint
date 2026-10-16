@@ -10,7 +10,7 @@ Summary:	Library implementing the AcoustID fingerprinting
 Summary(pl.UTF-8):	Biblioteka implementująca odciski AcoustID
 Name:		chromaprint
 Version:	1.6.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+ (MIT parts)
 Group:		Libraries
 #Source0Download: https://github.com/acoustid/chromaprint/releases
